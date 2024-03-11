@@ -1,23 +1,32 @@
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
-const util = require("util");
+const { clog } = require("./middleware/clog");
+const api = require("./routes/index");
 
-// Import routes
-const htmlRoutes = require("./routes/index");
-const apiRoutes = require("./routes/notes");
+const PORT = 3001;
 
-// Initialize the app and create a port
 const app = express();
-const PORT = process.env.PORT || 3001;
 
-// Set up body parsing, static, and route middleware
+// Import custom middleware, "cLog"
+app.use(clog);
+
+// Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public")); // Serve static files from the public folder
+app.use("/api", api);
 
-// Use routes
-app.use("/", htmlRoutes);
-app.use("/api", apiRoutes);
-// Start the server on the port
-app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
+app.use(express.static("public"));
+
+// GET Route for homepage
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "/public/index.html"))
+);
+
+// GET Route for notes page
+app.get("/notes", (req, res) =>
+  res.sendFile(path.join(__dirname, "/public/notes.html"))
+);
+
+app.listen(PORT, () =>
+  console.log(`App listening at http://localhost:${PORT}`)
+);
