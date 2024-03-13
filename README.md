@@ -49,3 +49,14 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 ## Mock-Up
 
 ![Alt text](image.png)
+
+Deployed Heroku url :
+
+https://thawing-brushlands-29538-a3063882980d.herokuapp.com/
+
+
+## Credits
+John Young ( Instructor )
+Nick Gambino ( TA)
+
+
